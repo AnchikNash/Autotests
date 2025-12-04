@@ -1,17 +1,28 @@
+# python
 from selenium import webdriver
 import pytest
-from selenium.webdriver.Chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
 
 @pytest.fixture()
 def browser():
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
 
-    browser = webdriver.Chrome(options=options)
-    browser.maximize_window()
-    browser.implicitly_wait(5)
+    # Создаём сервис (можно указать executable_path, если нужно)
+    service = Service()
 
-    yield browser
+    # Создаём драйвер с сервисом и опциями
+    driver = webdriver.Chrome(service=service, options=options)
 
-    browser.quit()
+    # Настройки драйвера
+    driver.maximize_window()
+    driver.implicitly_wait(5)
 
+    try:
+        yield driver
+    finally:
+        driver.quit()
