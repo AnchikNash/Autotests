@@ -1,11 +1,11 @@
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
-class ProductPage:
+class ProductPage(BasePage):
+    TITLE = (By.CSS_SELECTOR, "h2")
 
-    def __init__(self, browser):
-        self.browser = browser
+    def check_title(self, expected_title):
+        actual_title = self.get_text(self.TITLE)
+        assert actual_title == expected_title
 
-    def check_title_is(self, title):
-        page_title = self.browser.find_element(By.CSS_SELECTOR, "h2")
-        assert page_title.text == title
 

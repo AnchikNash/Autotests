@@ -1,9 +1,7 @@
-# python
 from selenium import webdriver
 import pytest
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-
 
 @pytest.fixture()
 def browser():
@@ -12,13 +10,8 @@ def browser():
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
 
-    # Создаём сервис (можно указать executable_path, если нужно)
     service = Service()
-
-    # Создаём драйвер с сервисом и опциями
     driver = webdriver.Chrome(service=service, options=options)
-
-    # Настройки драйвера
     driver.maximize_window()
     driver.implicitly_wait(5)
 
@@ -26,3 +19,5 @@ def browser():
         yield driver
     finally:
         driver.quit()
+
+
